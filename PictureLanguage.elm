@@ -16,11 +16,11 @@ cornerSplit : Painter -> Int -> Painter
 cornerSplit painter n = 
   if (n==0)
     then painter 
-    else let up    = upSplit painter (n-1)
-             right = rightSplit painter (n-1)
-             topLeft = beside up up
+    else let up          = upSplit painter (n-1)
+             right       = rightSplit painter (n-1)
+             topLeft     = beside up up
              bottomRight = below right right
-             corner = cornerSplit painter (n-1)
+             corner      = cornerSplit painter (n-1)
          in  beside (below painter topLeft) (below bottomRight corner)
 
 upSplit : Painter -> Int -> Painter
@@ -47,6 +47,7 @@ wave4 = flippedPairs wave
 wave2 : Painter 
 wave2 = beside wave (flipVert wave)
 
+-- The wave painter. Co-ordinate value taken from bill-the-lizard's solution
 wave : Painter 
 wave  = segmentsPainter 
   [((0.006, 0.840), (0.155, 0.591)),
@@ -87,11 +88,11 @@ flipVert p = transformPainter p (0.0, 1.0) (1.0, 1.0) (0.0, 0.0)
 
 transformPainter : Painter -> Point -> Point -> Point -> Painter 
 transformPainter painter origin corner1 corner2 = 
-  \frame -> let m = frameCoordMap frame
+  \frame -> let m         = frameCoordMap frame
                 newOrigin = m origin
-                edge1 = subVect (m corner1) newOrigin
-                edge2 = subVect (m corner2) newOrigin
-                newFrame = {origin = newOrigin, edge1 = edge1, edge2 = edge2}
+                edge1     = subVect (m corner1) newOrigin
+                edge2     = subVect (m corner2) newOrigin
+                newFrame  = {origin = newOrigin, edge1 = edge1, edge2 = edge2}
             in  painter newFrame
 
 segmentsPainter : List (Point, Point) -> Painter
