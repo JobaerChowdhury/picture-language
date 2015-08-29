@@ -3,21 +3,14 @@ import Graphics.Collage exposing (..)
 import Graphics.Element exposing (..)
 import List exposing (..)
 
---main = show (frameCoordMap aFrame (1,1))
-
 main : Element
 main =
-  collage 480 640
-    [ move (-200,0) (outlines aFrame)
-    , move (-200,0) (bigX aFrame)
-    , move (-200,0) (diamond aFrame)
+  collage 500 500
+    [ move (-200,-200) (wave aFrame)    
     ]
 
-lines : List Form 
-lines = [(drawLine (0,0) (100,100)), (drawLine (0,10) (100,10)), (drawLine (10,0) (10,100))]
-
 aFrame : Frame
-aFrame = {origin=(0,0), edge1=(0,300), edge2=(400,0)}
+aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
 
 outlines : Painter
 outlines f = segmentsPainter [((0,0), (0,1)), ((0,1), (1,1)), ((1,1), (1,0)), ((1,0),(0,0))] f 
@@ -28,6 +21,27 @@ bigX f = segmentsPainter [((0,0), (1,1)), ((1,0),(0,1))] f
 diamond : Painter
 diamond f = segmentsPainter 
   [((0.5,0), (1,0.5)), ((1,0.5), (0.5,1)), ((0.5,1), (0,0.5)), ((0,0.5),(0.5,0))] f 
+
+wave : Painter 
+wave  = segmentsPainter 
+  [((0.006, 0.840), (0.155, 0.591)),
+   ((0.006, 0.635), (0.155, 0.392)),
+   ((0.304, 0.646), (0.155, 0.591)),
+   ((0.298, 0.591), (0.155, 0.392)),
+   ((0.304, 0.646), (0.403, 0.646)),
+   ((0.298, 0.591), (0.354, 0.492)),
+   ((0.403, 0.646), (0.348, 0.845)),
+   ((0.354, 0.492), (0.249, 0.000)),
+   ((0.403, 0.000), (0.502, 0.293)),
+   ((0.502, 0.293), (0.602, 0.000)),
+   ((0.348, 0.845), (0.403, 0.999)), 
+   ((0.602, 0.999), (0.652, 0.845)),
+   ((0.652, 0.845), (0.602, 0.646)),
+   ((0.602, 0.646), (0.751, 0.646)),
+   ((0.751, 0.646), (0.999, 0.343)),
+   ((0.751, 0.000), (0.597, 0.442)),
+   ((0.597, 0.442), (0.999, 0.144))]
+
 
 transformPainter : Painter -> Point -> Point -> Point -> Painter 
 transformPainter painter origin corner1 corner2 = 
