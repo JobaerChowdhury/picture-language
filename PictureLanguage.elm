@@ -6,11 +6,17 @@ import List exposing (..)
 main : Element
 main =
   collage 500 500
-    [ move (-200,-200) ((cornerSplit wave 6) aFrame)    
+    [ move (-200,-200) ((squareLimit wave 6) aFrame)    
     ]
 
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
+
+squareLimit : Painter -> Int -> Painter 
+squareLimit painter n = 
+  let quarter = cornerSplit painter n
+      half    = beside (flipHoriz quarter) quarter 
+  in  below (flipVert half) half
 
 cornerSplit : Painter -> Int -> Painter 
 cornerSplit painter n = 
