@@ -6,7 +6,7 @@ import List exposing (..)
 main : Element
 main =
   collage 500 500
-    [ move (-200,-200) ((beside wave (flipVert wave)) aFrame)    
+    [ move (-200,-200) ((below wave wave) aFrame)    
     ]
 
 aFrame : Frame
@@ -31,6 +31,12 @@ wave  = segmentsPainter
    ((0.751, 0.646), (0.999, 0.343)),
    ((0.751, 0.000), (0.597, 0.442)),
    ((0.597, 0.442), (0.999, 0.144))]
+
+below : Painter -> Painter -> Painter 
+below p1 p2 = let splitPoint     = (0, 0.5)
+                  bottomPainter  = transformPainter p1 (0,0) (1,0) splitPoint
+                  topPainter     = transformPainter p2 splitPoint (1,0.5) (0,1)
+              in  \f -> [bottomPainter f, topPainter f] |> group
 
 beside : Painter -> Painter -> Painter 
 beside p1 p2 = let splitPoint   = (0.5, 0)
