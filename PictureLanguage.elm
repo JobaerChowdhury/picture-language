@@ -29,6 +29,15 @@ diamond : Painter
 diamond f = segmentsPainter 
   [((0.5,0), (1,0.5)), ((1,0.5), (0.5,1)), ((0.5,1), (0,0.5)), ((0,0.5),(0.5,0))] f 
 
+transformPainter : Painter -> Point -> Point -> Point -> Painter 
+transformPainter painter origin corner1 corner2 = 
+  \frame -> let m = frameCoordMap frame
+                newOrigin = m origin
+                edge1 = subVect (m corner1) newOrigin
+                edge2 = subVect (m corner2) newOrigin
+                newFrame = {origin=newOrigin, edge1 = edge1, edge2 = edge2}
+            in  painter newFrame
+
 segmentsPainter : List ((Float, Float), (Float, Float)) -> Painter
 segmentsPainter ps = 
   \f -> map (drawLineInsideFrame f) ps |> group
@@ -38,6 +47,7 @@ drawLineInsideFrame f (x,y) = drawLine (frameCoordMap f x) (frameCoordMap f y)
 
 type alias Frame = { origin: (Float,Float), edge1: (Float, Float), edge2: (Float, Float)}
 type alias Painter = Frame -> Form
+type alias Point = (Float, Float)
 
 frameCoordMap : Frame -> (Float, Float) -> (Float, Float)
 frameCoordMap f = 
