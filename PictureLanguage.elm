@@ -4,7 +4,7 @@ import Graphics.Element exposing (..)
 import List exposing (..)
 
 main : Element
-main = collage 500 500 [ move (-200,-200) ((squareLimit wave 6) aFrame)]
+main = collage 500 500 [move (-200,-200) ((squareLimit wave 6) aFrame)]
 
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
@@ -50,7 +50,7 @@ wave4 = flippedPairs wave
 wave2 : Painter 
 wave2 = beside wave (flipVert wave)
 
--- The wave painter. Co-ordinate value taken from bill-the-lizard's solution
+-- The wave painter. Co-ordinate values taken from bill-the-lizard
 wave : Painter 
 wave  = segmentsPainter 
   [((0.006, 0.840), (0.155, 0.591)),
@@ -99,11 +99,9 @@ transformPainter painter origin corner1 corner2 =
             in  painter newFrame
 
 segmentsPainter : List (Point, Point) -> Painter
-segmentsPainter ps = 
-  \f -> map (drawLineInsideFrame f) ps |> group
-
-drawLineInsideFrame : Frame -> (Point, Point) -> Form
-drawLineInsideFrame f (x,y) = drawLine (frameCoordMap f x) (frameCoordMap f y) 
+segmentsPainter ps = \frame -> 
+  let fn = \(x,y) -> drawLine (frameCoordMap frame x) (frameCoordMap frame y) 
+  in  map fn ps |> group
 
 type alias Frame = { origin: Point, edge1: Point, edge2: Point}
 type alias Painter = Frame -> Form
