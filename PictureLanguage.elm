@@ -12,16 +12,6 @@ main =
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
 
-outlines : Painter
-outlines f = segmentsPainter [((0,0), (0,1)), ((0,1), (1,1)), ((1,1), (1,0)), ((1,0),(0,0))] f 
-
-bigX : Painter
-bigX f = segmentsPainter [((0,0), (1,1)), ((1,0),(0,1))] f 
-
-diamond : Painter
-diamond f = segmentsPainter 
-  [((0.5,0), (1,0.5)), ((1,0.5), (0.5,1)), ((0.5,1), (0,0.5)), ((0,0.5),(0.5,0))] f 
-
 wave : Painter 
 wave  = segmentsPainter 
   [((0.006, 0.840), (0.155, 0.591)),
