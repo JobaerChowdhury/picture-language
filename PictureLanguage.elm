@@ -12,8 +12,12 @@ main =
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
 
+flippedPairs : Painter -> Painter 
+flippedPairs p = let p2 = beside p (flipVert p) 
+                 in  below p2 p2
+
 wave4 : Painter
-wave4 = below wave2 wave2
+wave4 = flippedPairs wave
 
 wave2 : Painter 
 wave2 = beside wave (flipVert wave)
