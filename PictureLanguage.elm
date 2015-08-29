@@ -6,11 +6,18 @@ import List exposing (..)
 main : Element
 main =
   collage 500 500
-    [ move (-200,-200) (wave4 aFrame)    
+    [ move (-200,-200) ((rightSplit wave 6) aFrame)    
     ]
 
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
+
+rightSplit : Painter -> Int -> Painter
+rightSplit painter n = 
+  if (n == 0) 
+    then painter 
+    else let smaller = rightSplit painter (n-1)
+         in  beside painter (below smaller smaller)
 
 flippedPairs : Painter -> Painter 
 flippedPairs p = let p2 = beside p (flipVert p) 
