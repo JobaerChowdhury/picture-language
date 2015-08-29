@@ -6,11 +6,22 @@ import List exposing (..)
 main : Element
 main =
   collage 500 500
-    [ move (-200,-200) ((upSplit wave 6) aFrame)    
+    [ move (-200,-200) ((cornerSplit wave 6) aFrame)    
     ]
 
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
+
+cornerSplit : Painter -> Int -> Painter 
+cornerSplit painter n = 
+  if (n==0)
+    then painter 
+    else let up    = upSplit painter (n-1)
+             right = rightSplit painter (n-1)
+             topLeft = beside up up
+             bottomRight = below right right
+             corner = cornerSplit painter (n-1)
+         in  beside (below painter topLeft) (below bottomRight corner)
 
 upSplit : Painter -> Int -> Painter
 upSplit painter n = 
