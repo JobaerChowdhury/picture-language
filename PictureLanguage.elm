@@ -6,11 +6,17 @@ import List exposing (..)
 main : Element
 main =
   collage 500 500
-    [ move (-200,-200) ((below wave wave) aFrame)    
+    [ move (-200,-200) (wave4 aFrame)    
     ]
 
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
+
+wave4 : Painter
+wave4 = below wave2 wave2
+
+wave2 : Painter 
+wave2 = beside wave (flipVert wave)
 
 wave : Painter 
 wave  = segmentsPainter 
@@ -56,7 +62,7 @@ transformPainter painter origin corner1 corner2 =
                 newOrigin = m origin
                 edge1 = subVect (m corner1) newOrigin
                 edge2 = subVect (m corner2) newOrigin
-                newFrame = {origin=newOrigin, edge1 = edge1, edge2 = edge2}
+                newFrame = {origin = newOrigin, edge1 = edge1, edge2 = edge2}
             in  painter newFrame
 
 segmentsPainter : List (Point, Point) -> Painter
