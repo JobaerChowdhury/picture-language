@@ -38,29 +38,29 @@ transformPainter painter origin corner1 corner2 =
                 newFrame = {origin=newOrigin, edge1 = edge1, edge2 = edge2}
             in  painter newFrame
 
-segmentsPainter : List ((Float, Float), (Float, Float)) -> Painter
+segmentsPainter : List (Point, Point) -> Painter
 segmentsPainter ps = 
   \f -> map (drawLineInsideFrame f) ps |> group
 
-drawLineInsideFrame : Frame -> ((Float, Float), (Float, Float)) -> Form
+drawLineInsideFrame : Frame -> (Point, Point) -> Form
 drawLineInsideFrame f (x,y) = drawLine (frameCoordMap f x) (frameCoordMap f y) 
 
-type alias Frame = { origin: (Float,Float), edge1: (Float, Float), edge2: (Float, Float)}
+type alias Frame = { origin: Point, edge1: Point, edge2: Point}
 type alias Painter = Frame -> Form
 type alias Point = (Float, Float)
 
-frameCoordMap : Frame -> (Float, Float) -> (Float, Float)
+frameCoordMap : Frame -> Point -> Point
 frameCoordMap f = 
   \(x,y) -> addVect f.origin (addVect (scaleVect x f.edge1) (scaleVect y f.edge2))
 
-addVect : (Float, Float) -> (Float, Float) -> (Float, Float)
+addVect : Point -> Point -> Point
 addVect (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
 
-subVect : (Float, Float) -> (Float, Float) -> (Float, Float)
+subVect : Point -> Point -> Point
 subVect (x1, y1) (x2, y2) = (x1 - x2, y1 - y2)
 
-scaleVect : Float -> (Float, Float) -> (Float, Float)
+scaleVect : Float -> Point -> Point
 scaleVect s (x,y) = (s*x, s*y)
 
-drawLine : (Float, Float) -> (Float, Float) -> Form
+drawLine : Point -> Point -> Form
 drawLine x y = segment x y |> traced (dashed blue)
