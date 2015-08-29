@@ -4,10 +4,7 @@ import Graphics.Element exposing (..)
 import List exposing (..)
 
 main : Element
-main =
-  collage 500 500
-    [ move (-200,-200) ((squareLimit wave 6) aFrame)    
-    ]
+main = collage 500 500 [ move (-200,-200) ((squareLimit wave 6) aFrame)]
 
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(400,0), edge2=(0,400)}
