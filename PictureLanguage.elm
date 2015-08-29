@@ -38,6 +38,9 @@ beside p1 p2 = let splitPoint   = (0.5, 0)
                    rightPainter = transformPainter p2 splitPoint (1,0) (0.5,1)
                in  \f -> [leftPainter f, rightPainter f] |> group
 
+flipHoriz : Painter -> Painter 
+flipHoriz p = transformPainter p (1.0, 0.0) (0.0, 0.0) (1.0, 1.0) 
+
 flipVert : Painter -> Painter 
 flipVert p = transformPainter p (0.0, 1.0) (1.0, 1.0) (0.0, 0.0)
 
