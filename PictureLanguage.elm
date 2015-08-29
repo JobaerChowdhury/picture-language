@@ -19,17 +19,17 @@ lines = [(drawLine (0,0) (100,100)), (drawLine (0,10) (100,10)), (drawLine (10,0
 aFrame : Frame
 aFrame = {origin=(0,0), edge1=(0,300), edge2=(400,0)}
 
-outlines : Frame -> Form
+outlines : Painter
 outlines f = segmentsPainter [((0,0), (0,1)), ((0,1), (1,1)), ((1,1), (1,0)), ((1,0),(0,0))] f 
 
-bigX : Frame -> Form
+bigX : Painter
 bigX f = segmentsPainter [((0,0), (1,1)), ((1,0),(0,1))] f 
 
-diamond : Frame -> Form
+diamond : Painter
 diamond f = segmentsPainter 
   [((0.5,0), (1,0.5)), ((1,0.5), (0.5,1)), ((0.5,1), (0,0.5)), ((0,0.5),(0.5,0))] f 
 
-segmentsPainter : List ((Float, Float), (Float, Float)) -> Frame -> Form
+segmentsPainter : List ((Float, Float), (Float, Float)) -> Painter
 segmentsPainter ps = 
   \f -> map (drawLineInsideFrame f) ps |> group
 
@@ -37,6 +37,7 @@ drawLineInsideFrame : Frame -> ((Float, Float), (Float, Float)) -> Form
 drawLineInsideFrame f (x,y) = drawLine (frameCoordMap f x) (frameCoordMap f y) 
 
 type alias Frame = { origin: (Float,Float), edge1: (Float, Float), edge2: (Float, Float)}
+type alias Painter = Frame -> Form
 
 frameCoordMap : Frame -> (Float, Float) -> (Float, Float)
 frameCoordMap f = 
