@@ -4,11 +4,6 @@ import Color exposing (..)
 import Collage exposing (..)
 import Element exposing (..)
 import Html exposing (..)
-
-
--- import Graphics.Collage exposing (..)
--- import Graphics.Element exposing (..)
-
 import List exposing (..)
 
 
